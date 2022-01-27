@@ -8,7 +8,7 @@ pipeline{
                 choice(name: 'resoure',
                          choices: ['','iam','s3', 'vpc','ec2', 'rds'],
                                 description: 'Apply will deploy a VPC, s3, rds..')
-                string(name: 'resource_name', defaultValue: '', description: 'folder name')
+                string(name: 'resource_name', defaultValue: '', description: 'resource_name')
                 choice(name: 'build_option',
                          choices: ['','plan','apply', 'destroy'],
                                 description: 'Apply will deploy a VPC, and Destroy will remove the VPC..')
@@ -34,8 +34,8 @@ pipeline{
           stage('Terraform init '){
           steps{
                     sh """
-                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" init 
-                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" ${build_option} --auto-approve 
+                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${resource_name}/" init 
+                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${resource_name}/" ${build_option} --auto-approve 
                         """
             }
          }
