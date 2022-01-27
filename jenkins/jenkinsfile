@@ -25,7 +25,7 @@ pipeline{
                     git remote update
                     git fetch 
                     git branch -r
-                    git checkout --track origin/${git_branch}
+                    git checkout ${git_branch}
                     git clone ${git_url}
                     echo "Git pull completed"
                     """
