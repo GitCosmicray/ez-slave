@@ -4,10 +4,11 @@ pipeline{
 
                 string(name: 'git_url', defaultValue: '', description: 'git url')
                 string(name: 'git_branch', defaultValue: '', description: 'git_branch')
+                string(name: 'repo_name', defaultValue: '', description: 'repo_name')
                 choice(name: 'resoure',
                          choices: ['','iam','s3', 'vpc','ec2', 'rds'],
                                 description: 'Apply will deploy a VPC, s3, rds..')
-                string(name: 'folder_name', defaultValue: '', description: 'folder name')
+                string(name: 'resource_name', defaultValue: '', description: 'folder name')
                 choice(name: 'build_option',
                          choices: ['','plan','apply', 'destroy'],
                                 description: 'Apply will deploy a VPC, and Destroy will remove the VPC..')
@@ -15,14 +16,12 @@ pipeline{
      stages{
          stage('Git Checkout'){
           steps{
-                    sh """
-                    git remote remove origin                   
-                    cd "/home/jenkins/git/"
+                    sh """                  
+                    cd "/home/ubuntu/git/"
                     rm -rf *
                     echo "Git initilization started"
                     git init 
                     echo "Git initilization completed"
-                    git fetch ${git_url}
                     git branch -r
                     git checkout ${git_branch}
                     git clone ${git_url}
@@ -33,8 +32,8 @@ pipeline{
           stage('Terraform init '){
           steps{
                     sh """
-                        terraform -chdir="/home/jenkins/git/automation/${resoure}/${folder_name}/" init 
-                        terraform -chdir="/home/jenkins/git/automation/${resoure}/${folder_name}/" ${build_option} --auto-approve 
+                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" init 
+                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" ${build_option} --auto-approve 
                         """
             }
          }
