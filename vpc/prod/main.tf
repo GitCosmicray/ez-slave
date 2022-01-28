@@ -1,6 +1,6 @@
 #Declaring AWS Provider and credentials
 provider "aws" {
-  region     = "us-west-1"
+  region     = var.region
   access_key = "AKIAS7T2UNA2IAT52DRE"
   secret_key = "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"
 }
