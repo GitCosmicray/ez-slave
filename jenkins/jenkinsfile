@@ -12,6 +12,10 @@ pipeline{
                 choice(name: 'build_option',
                          choices: ['','plan','apply', 'destroy'],
                                 description: 'Apply will deploy a VPC, and Destroy will remove the VPC..')
+                                choice(name: 'region',
+                         choices: ['','us-east-1','us-west-1', 'us-east-2'],
+                                description: 'Apply will deploy a VPC, and Destroy will remove the VPC..')
+                                
                 }
      stages{
          stage('Git Checkout'){
@@ -33,7 +37,8 @@ pipeline{
           steps{
                     sh """
                         terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" init 
-                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" ${build_option} --auto-approve 
+                        terraform -chdir="/home/ubuntu/git/${repo_name}/${resoure}/${folder_name}/" ${build_option} --auto-approve -var="region=${region}"
+
                         """
             }
          }
